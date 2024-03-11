@@ -21,7 +21,7 @@ def create_vector_db():
     loader = GitLoader(
         clone_url = os.getenv('GIT_CLONE_URL'),
         branch = os.getenv('GIT_BRANCH'),
-        repo_path = "repo",
+        repo_path = "data/docs",
     )
 
     documents = loader.load()
@@ -36,7 +36,7 @@ def create_vector_db():
 
     vectorstore = Chroma.from_documents(
         documents = texts,
-        persist_directory = "vectorstore",
+        persist_directory = "data/vectors",
         embedding = load_embedding()
     )
 

@@ -17,7 +17,7 @@ def load_embedding():
         model_name = "Salesforce/SFR-Embedding-Mistral"
     )
 
-    store = LocalFileStore("./cache/")
+    store = LocalFileStore("data/cache")
     
     return CacheBackedEmbeddings.from_bytes_store(
         underlying_embeddings,

@@ -41,7 +41,7 @@ def retrieval_qa_chain(llm, vectorstore):
 def qa_bot():
     llm = load_llm()
     vectorstore = Chroma(
-        persist_directory = "vectorstore",
+        persist_directory = "res/vectors",
         embedding_function = load_embedding()
     )
     qa = retrieval_qa_chain(llm, vectorstore)
