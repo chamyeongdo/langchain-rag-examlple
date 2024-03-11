@@ -12,7 +12,7 @@ import chainlit as cl
 
 import os
 
-from rag import load_embedding
+from embeddings import load_embedding
 from dotenv import load_dotenv
 
 load_dotenv(verbose=True)

@@ -23,6 +23,10 @@ pyenv local langchain
 ```
 
 ```
+pip install chainlit langchain langchainhub gpt4all chromadb sentence-transformers GitPython
+```
+
+```
 python build.py
 ```
 

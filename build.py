@@ -10,14 +10,14 @@ from langchain_community.embeddings import OllamaEmbeddings, HuggingFaceEmbeddin
 from langchain.embeddings import CacheBackedEmbeddings
 from langchain.storage import LocalFileStore
 
-from rag import load_embedding
+from embeddings import load_embedding
 from dotenv import load_dotenv
 
 import os
 
 load_dotenv(verbose=True)
 
-def create_vector_db():
+def create_vector():
     loader = GitLoader(
         clone_url = os.getenv('GIT_CLONE_URL'),
         branch = os.getenv('GIT_BRANCH'),
@@ -43,4 +43,4 @@ def create_vector_db():
     vectorstore.persist()
 
 if __name__=="__main__":
-    create_vector_db()
+    create_vector()
