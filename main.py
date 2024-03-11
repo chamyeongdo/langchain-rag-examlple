@@ -10,10 +10,17 @@ from langchain.chains import RetrievalQA,RetrievalQAWithSourcesChain
 
 import chainlit as cl
 
+import os
+
+from rag import load_embedding
+from dotenv import load_dotenv
+
+load_dotenv(verbose=True)
+
 def load_llm():
     llm = Ollama(
-        base_url = "http://localhost:11434",
-        model = "mistral",
+        base_url = os.getenv('OLLAMA_BASE_URL'),
+        model = os.getenv('OLLAMA_MODEL'),
         verbose = True,
         callback_manager = CallbackManager([StreamingStdOutCallbackHandler()]),
     )
@@ -34,8 +41,8 @@ def retrieval_qa_chain(llm, vectorstore):
 def qa_bot():
     llm = load_llm()
     vectorstore = Chroma(
-        persist_directory = "vectorstores/db/",
-        embedding_function = GPT4AllEmbeddings()
+        persist_directory = "vectorstore",
+        embedding_function = load_embedding()
     )
     qa = retrieval_qa_chain(llm, vectorstore)
     return qa

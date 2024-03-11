@@ -10,37 +10,17 @@ from langchain_community.embeddings import OllamaEmbeddings, HuggingFaceEmbeddin
 from langchain.embeddings import CacheBackedEmbeddings
 from langchain.storage import LocalFileStore
 
-from rag import load_embedding
-from dotenv import load_dotenv
-
 import os
 
-load_dotenv(verbose=True)
-
-def create_vector_db():
-    loader = GitLoader(
-        clone_url = os.getenv('GIT_CLONE_URL'),
-        branch = os.getenv('GIT_BRANCH'),
-        repo_path = "repo",
+def load_embedding():
+    underlying_embeddings = HuggingFaceEmbeddings(
+        model_name = "Salesforce/SFR-Embedding-Mistral"
     )
 
-    documents = loader.load()
-
-    text_splitter = RecursiveCharacterTextSplitter.from_language(
-        language = Language.PHP,
-        chunk_size = 5000,
-        chunk_overlap = 3000
+    store = LocalFileStore("./cache/")
+    
+    return CacheBackedEmbeddings.from_bytes_store(
+        underlying_embeddings,
+        store, 
+        namespace=underlying_embeddings.model
     )
-
-    texts = text_splitter.split_documents(documents)
-
-    vectorstore = Chroma.from_documents(
-        documents = texts,
-        persist_directory = "vectorstore",
-        embedding = load_embedding()
-    )
-
-    vectorstore.persist()
-
-if __name__=="__main__":
-    create_vector_db()
